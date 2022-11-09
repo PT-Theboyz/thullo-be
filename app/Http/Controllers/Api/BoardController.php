@@ -5,6 +5,7 @@ namespace App\Http\Controllers\Api;
 use App\Http\Controllers\Controller;
 use App\Models\Board;
 use Illuminate\Http\Request;
+use App\Http\Requests\StoreBoardRequest;
 
 class BoardController extends Controller
 {
@@ -15,7 +16,12 @@ class BoardController extends Controller
      */
     public function index()
     {
-        //
+        $boards = Board::all();
+
+        return response()->json([
+            'status' => true,
+            'data' => $boards
+        ]);
     }
 
     /**
@@ -34,28 +40,13 @@ class BoardController extends Controller
      * @param  \Illuminate\Http\Request  $request
      * @return \Illuminate\Http\Response
      */
-    public function store(Request $request)
+    public function store(StoreBoardRequest $request)
     {
-        //
-        $validateBoard = Validator::make($request->all(), 
-        [
-            'name' => 'required',
-            'cover' => 'required',
-        ]);
-
-        if($validateBoard->fails()){
-            return response()->json([
-                'status' => false,
-                'message' => 'validation error',
-                'errors' => $validateBoard->errors()
-            ], 401);
-        }
-
         $board = Board::create($request->all());
 
         return response()->json([
             'status' => true,
-            'message' => "Post Created successfully!",
+            'message' => "Board Created successfully!",
             'data' => $board
         ], 200);
     }
@@ -89,9 +80,15 @@ class BoardController extends Controller
      * @param  \App\Models\Board  $board
      * @return \Illuminate\Http\Response
      */
-    public function update(Request $request, Board $board)
+    public function update(StoreBoardRequest $request, Board $board)
     {
-        //
+        $board->update($request->all());
+
+        return response()->json([
+            'status' => true,
+            'message' => "Board Updated successfully!",
+            'data' => $board
+        ], 200);
     }
 
     /**
@@ -102,6 +99,11 @@ class BoardController extends Controller
      */
     public function destroy(Board $board)
     {
-        //
+        $board->delete();
+
+        return response()->json([
+            'status' => true,
+            'message' => "Board Deleted successfully!",
+        ], 200);
     }
 }
