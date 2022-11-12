@@ -23,3 +23,5 @@ Route::post('/auth/register', [AuthController::class, 'createUser']);
 Route::post('/auth/login', [AuthController::class, 'loginUser']);
 
 Route::apiResource('boards', BoardController::class)->middleware('auth:sanctum');
+Route::post('users/{user}/boards/{board}/assign', [BoardController::class, 'assignUser']);
+Route::post('users/{user}/boards/{board}/unassign', [BoardController::class, 'unassignUser']);

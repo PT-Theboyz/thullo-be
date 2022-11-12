@@ -4,6 +4,7 @@ namespace App\Http\Controllers\Api;
 
 use App\Http\Controllers\Controller;
 use App\Models\Board;
+use App\Models\User;
 use Illuminate\Http\Request;
 use App\Http\Requests\StoreBoardRequest;
 
@@ -16,7 +17,7 @@ class BoardController extends Controller
      */
     public function index()
     {
-        $boards = Board::all();
+        $boards = Board::with('users')->get();
 
         return response()->json([
             'status' => true,
@@ -48,6 +49,46 @@ class BoardController extends Controller
             'status' => true,
             'message' => "Board Created successfully!",
             'data' => $board
+        ], 200);
+    }
+
+    public function assignUser(User $user, Board $board)
+    {
+        if($board->users->contains($user->id)){
+            return response()->json([
+                'status' => false,
+                'message' => "User Already Assign to this board",
+                'data' => null
+            ], 422);
+        }
+
+
+        $board->users()->attach($user->id);
+
+        return response()->json([
+            'status' => true,
+            'message' => "Assign User to Board successfully!",
+            'data' => $board::with("users")->get()
+        ], 200);
+    }
+
+    public function unassignUser(User $user, Board $board)
+    {
+        if(!$board->users->contains($user->id)){
+            return response()->json([
+                'status' => false,
+                'message' => "User not assigned to this Board",
+                'data' => null
+            ], 422);
+        }
+
+
+        $board->users()->detach($user->id);
+
+        return response()->json([
+            'status' => true,
+            'message' => "Unassign User to Board successfully!",
+            'data' => $board::with("users")->get()
         ], 200);
     }
 

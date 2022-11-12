@@ -44,6 +44,6 @@ class User extends Authenticatable
 
     public function boards()
     {
-        return $this->belongsToMany('App\Board')->withTimestamps();
+        return $this->belongsToMany(Board::class)->withTimestamps();
     }
 }
