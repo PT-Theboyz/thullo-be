@@ -26,6 +26,7 @@ class StoreBoardRequest extends FormRequest
         return [
             'name' => 'required',
             'cover' => 'required',
+            'description' => 'required',
         ];
     }
 }

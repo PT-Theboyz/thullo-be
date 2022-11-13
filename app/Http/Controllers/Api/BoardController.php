@@ -56,12 +56,14 @@ class BoardController extends Controller
         $board = Board::create($request->all());
 
         // Attach First User to Board
-        $board->users()->attach($user->id);
+        if(!$board->users->contains($user->id)){
+            $board->users()->attach($user->id);
+        }
 
         return response()->json([
             'status' => true,
             'message' => "Board Created successfully!",
-            'data' => $board::with("users")->get()
+            'data' => $board
         ], 200);
     }
 
@@ -90,7 +92,7 @@ class BoardController extends Controller
         return response()->json([
             'status' => true,
             'message' => "Assign User to Board successfully!",
-            'data' => $board::with("users")->get()
+            // 'data' => $board::with("users")->get()
         ], 200);
     }
 
@@ -120,7 +122,7 @@ class BoardController extends Controller
         return response()->json([
             'status' => true,
             'message' => "Unassign User to Board successfully!",
-            'data' => $board::with("users")->get()
+            // 'data' => $board::with("users")->get()
         ], 200);
     }
 
@@ -132,9 +134,12 @@ class BoardController extends Controller
      */
     public function show(Board $board)
     {
-        //
+        return response()->json([
+            'status' => true,
+            'data' => $board
+        ]);
     }
-
+    
     /**
      * Show the form for editing the specified resource.
      *
@@ -180,7 +185,7 @@ class BoardController extends Controller
      * @param  \App\Models\Board  $board
      * @return \Illuminate\Http\Response
      */
-    public function destroy(Board $board)
+    public function destroy(Request $request, Board $board)
     {
         //Check User Role
         $user = $request->user('sanctum');
