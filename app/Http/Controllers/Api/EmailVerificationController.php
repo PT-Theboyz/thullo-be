@@ -6,9 +6,16 @@ use App\Http\Controllers\Controller;
 use Illuminate\Http\Request;
 use Illuminate\Auth\Events\Verified;
 use Illuminate\Foundation\Auth\EmailVerificationRequest;
+use Illuminate\Contracts\Auth\Authenticatable;
 
 class EmailVerificationController extends Controller
 {
+    public function __contrsuct()
+    {
+        $this->middleware('signed')->only('verify');
+    }
+
+
     public function sendVerificationEmail(Request $request)
     {
         if($request->user()->hasVerifiedEmail()) {
@@ -26,8 +33,10 @@ class EmailVerificationController extends Controller
         ], 200);
     }
 
-    public function verify(EmailVerificationRequest $request)
+    public function verify(Request $request)
     {
+        auth()->loginUsingId($request->route('id'));
+        
         if ($request->user()->hasVerifiedEmail()) {
             return response()->json([
                 'status' => false,
@@ -39,9 +48,9 @@ class EmailVerificationController extends Controller
             event(new Verified($request->user()));
         }
 
-        return response()->json([
-            'status' => false,
+        return response([
+            'status' => true,
             'message'=>'Email has been verified'
-        ], 200);
+        ]);
     }
 }
