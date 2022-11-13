@@ -45,10 +45,14 @@ class BoardController extends Controller
     {
         $board = Board::create($request->all());
 
+        // Attach First User to Board
+        $userId = $request->user('sanctum')->id;
+        $board->users()->attach($userId);
+
         return response()->json([
             'status' => true,
             'message' => "Board Created successfully!",
-            'data' => $board
+            'data' => $board::with("users")->get()
         ], 200);
     }
 
