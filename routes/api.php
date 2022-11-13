@@ -28,7 +28,7 @@ header('Access-Control-Allow-Headers: Accept, Content-Type, X-Auth-Token, Origin
 Route::post('auth/register', [AuthController::class, 'createUser']);
 Route::post('auth/login', [AuthController::class, 'loginUser']);
 Route::post('email/send-verification', [EmailVerificationController::class, 'sendVerificationEmail'])->middleware('auth:sanctum');
-Route::get('email/verify/{id}/{hash}/', [EmailVerificationController::class, 'verify'])->name('verification.verify')->middleware('signed');
+Route::get('email/verify/{id}/{hash}/', [EmailVerificationController::class, 'verify'])->name('verification.verify')->middleware(['signed', 'throttle:6,1']);
 
 //Board
 Route::apiResource('boards', BoardController::class)->middleware('auth:sanctum');
