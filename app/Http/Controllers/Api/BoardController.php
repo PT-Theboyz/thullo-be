@@ -43,11 +43,20 @@ class BoardController extends Controller
      */
     public function store(StoreBoardRequest $request)
     {
+        //Check User Role
+        $user = $request->user('sanctum');
+        if($user->role != 'manager'){
+            return response()->json([
+                'status' => false,
+                'message' => "User role doesn't have access",
+                'data' => null
+            ], 422);
+        }
+        
         $board = Board::create($request->all());
 
         // Attach First User to Board
-        $userId = $request->user('sanctum')->id;
-        $board->users()->attach($userId);
+        $board->users()->attach($user->id);
 
         return response()->json([
             'status' => true,
@@ -58,6 +67,15 @@ class BoardController extends Controller
 
     public function assignUser(User $user, Board $board)
     {
+        //Check User Role
+        if($user->role != 'manager'){
+            return response()->json([
+                'status' => false,
+                'message' => "User role doesn't have access",
+                'data' => null
+            ], 422);
+        }
+
         if($board->users->contains($user->id)){
             return response()->json([
                 'status' => false,
@@ -78,6 +96,16 @@ class BoardController extends Controller
 
     public function unassignUser(User $user, Board $board)
     {
+
+        //Check User Role
+        if($user->role != 'manager'){
+            return response()->json([
+                'status' => false,
+                'message' => "User role doesn't have access",
+                'data' => null
+            ], 422);
+        }
+
         if(!$board->users->contains($user->id)){
             return response()->json([
                 'status' => false,
@@ -127,6 +155,16 @@ class BoardController extends Controller
      */
     public function update(StoreBoardRequest $request, Board $board)
     {
+        //Check User Role
+        $user = $request->user('sanctum');
+        if($user->role != 'manager'){
+            return response()->json([
+                'status' => false,
+                'message' => "User role doesn't have access",
+                'data' => null
+            ], 422);
+        }
+
         $board->update($request->all());
 
         return response()->json([
@@ -144,6 +182,16 @@ class BoardController extends Controller
      */
     public function destroy(Board $board)
     {
+        //Check User Role
+        $user = $request->user('sanctum');
+        if($user->role != 'manager'){
+            return response()->json([
+                'status' => false,
+                'message' => "User role doesn't have access",
+                'data' => null
+            ], 422);
+        }
+
         $board->delete();
 
         return response()->json([
