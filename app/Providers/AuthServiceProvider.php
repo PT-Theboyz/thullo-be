@@ -28,7 +28,7 @@ class AuthServiceProvider extends ServiceProvider
         $this->registerPolicies();
 
         VerifyEmail::toMailUsing(function ($notifiable, $url) {
-            $clientUrl = "http://thullo-fe.vercel.app/verify?email_verify_url=".$url;
+            $clientUrl = "https://thullo-fe.vercel.app/verify?email_verify_url=".$url;
 
             return (new MailMessage)
                 ->subject('Verify Email Address')
