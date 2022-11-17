@@ -13,18 +13,20 @@ return new class extends Migration
      */
     public function up()
     {
-        Schema::create('board_user', function (Blueprint $table) {
-            $table->id();
-            $table->bigInteger('user_id')->unsigned();
-            $table->bigInteger('board_id')->unsigned(); 
-            $table->timestamps();
-            $table->foreign('user_id')
-                ->references('id')
-                ->on('users');
-             $table->foreign('board_id')
-                ->references('id')
-                ->on('boards');
-        });
+        if(!Schema::hasTable('board_user')){
+            Schema::create('board_user', function (Blueprint $table) {
+                $table->id();
+                $table->bigInteger('user_id')->unsigned();
+                $table->bigInteger('board_id')->unsigned(); 
+                $table->timestamps();
+                $table->foreign('user_id')
+                    ->references('id')
+                    ->on('users');
+                 $table->foreign('board_id')
+                    ->references('id')
+                    ->on('boards');
+            });
+        }
     }
 
     /**

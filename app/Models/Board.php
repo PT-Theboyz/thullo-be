@@ -13,6 +13,12 @@ class Board extends Model
         'name', 'cover', 'description'
     ];
 
+     // Get the entries for a specific mood.
+    public function taskLists()
+    {
+        return $this->hasMany(TaskList::class);
+    }
+
     public function users(){
         return $this->belongsToMany(User::class)->withTimestamps();
     }
