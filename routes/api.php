@@ -5,6 +5,7 @@ use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\Api\AuthController;
 use App\Http\Controllers\Api\BoardController;
 use App\Http\Controllers\Api\TaskListController;
+use App\Http\Controllers\Api\TaskController;
 use App\Http\Controllers\Api\EmailVerificationController;
 /*
 |--------------------------------------------------------------------------
@@ -38,3 +39,6 @@ Route::post('users/{user}/boards/{board}/unassign', [BoardController::class, 'un
 
 //TaskList
 Route::apiResource('tasklists', TaskListController::class)->middleware('auth:sanctum');
+
+//Task
+Route::apiResource('tasks', TaskListController::class)->middleware('auth:sanctum');
