@@ -5,19 +5,13 @@ namespace App\Models;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 
-class TaskList extends Model
+class Task extends Model
 {
     use HasFactory;
 
     protected $fillable  = [
-        'name', 'board_id'
+        'title', 'description', 'position', 'status'
+        'due_date', 'cover'
     ];
 
-    protected $table = 'task_lists';
-
-    protected function Board(){
-        return $this->belongsTo(Board::class);
-    }
-
-    
 }

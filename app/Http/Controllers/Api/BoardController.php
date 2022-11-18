@@ -132,8 +132,9 @@ class BoardController extends Controller
      * @param  \App\Models\Board  $board
      * @return \Illuminate\Http\Response
      */
-    public function show(Board $board)
+    public function show($id)
     {
+        $board = Board::where('id', $id)->with('taskLists')->first();
         return response()->json([
             'status' => true,
             'data' => $board
