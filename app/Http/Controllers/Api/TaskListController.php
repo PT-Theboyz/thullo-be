@@ -90,35 +90,27 @@ class TaskListController extends Controller
      * @param  \App\Models\TaskList  $taskList
      * @return \Illuminate\Http\Response
      */
-    public function update(StoreTaskListRequest $request, TaskList $taskList)
+    public function update(Request $request, TaskList $tasklist)
     {
-        //Check User Role
-        // $user = $request->user('sanctum');
-        // if($user->role != 'manager'){
-        //     return response()->json([
-        //         'status' => false,
-        //         'message' => "User role doesn't have access",
-        //         'data' => null
-        //     ], 422);
-        // }
-
-        try {
-
-            $res = $taskList->update($request->all());
-
+        // Check User Role
+        $user = $request->user('sanctum');
+        if($user->role != 'manager'){
             return response()->json([
-                'status' => true,
-                'message' => "Task List Updated successfully!",
-                'data' => $res
-            ], 200);
-        
-        } catch (\Exception $exception) {
-            dump($exception);
-            dd($exception->getMessage());
-        
+                'status' => false,
+                'message' => "User role doesn't have access",
+                'data' => null
+            ], 422);
         }
 
+        $tasklist->update([
+            "name" => $request->name
+        ]);
 
+        return response()->json([
+            'status' => true,
+            'message' => "Task List Updated successfully!",
+            'data' => $tasklist
+        ], 200);
         
     }
 
@@ -128,7 +120,7 @@ class TaskListController extends Controller
      * @param  \App\Models\TaskList  $taskList
      * @return \Illuminate\Http\Response
      */
-    public function destroy(Request $request, TaskList $taskList)
+    public function destroy(Request $request, TaskList $tasklist)
     {
         //Check User Role
         $user = $request->user('sanctum');
@@ -140,7 +132,7 @@ class TaskListController extends Controller
             ], 422);
         }
 
-        $taskList->delete();
+        $tasklist->delete();
 
         return response()->json([
             'status' => true,
