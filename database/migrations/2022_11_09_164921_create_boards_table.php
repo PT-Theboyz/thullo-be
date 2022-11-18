@@ -16,7 +16,7 @@ return new class extends Migration
         Schema::create('boards', function (Blueprint $table) {
             $table->id();   
             $table->string('name');
-            $table->string('cover');
+            $table->string('cover', 300);
             $table->string('description');
             $table->timestamps();
         });
