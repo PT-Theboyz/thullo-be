@@ -10,8 +10,8 @@ class Task extends Model
     use HasFactory;
 
     protected $fillable  = [
-        'title', 'description', 'position', 'status'
-        'due_date', 'cover'
+        'title', 'description', 'position', 'status',
+        'due_date', 'cover', 'board_id', 'task_list_id'
     ];
 
 }
