@@ -5,6 +5,7 @@ namespace App\Http\Controllers\Api;
 use App\Http\Controllers\Controller;
 use App\Models\Task;
 use Illuminate\Http\Request;
+use App\Http\Requests\StoreTaskRequest;
 
 class TaskController extends Controller
 {
@@ -39,7 +40,7 @@ class TaskController extends Controller
      * @param  \Illuminate\Http\Request  $request
      * @return \Illuminate\Http\Response
      */
-    public function store(Request $request)
+    public function store(StoreTaskRequest $request)
     {
         //Check User Role
         $user = $request->user('sanctum');
@@ -55,7 +56,7 @@ class TaskController extends Controller
 
         return response()->json([
             'status' => true,
-            'message' => "Board Created successfully!",
+            'message' => "Task Created successfully!",
             'data' => $task
         ], 200);
     }
@@ -91,7 +92,23 @@ class TaskController extends Controller
      */
     public function update(Request $request, Task $task)
     {
-        //
+        //Check User Role
+        $user = $request->user('sanctum');
+        if($user->role != 'manager'){
+            return response()->json([
+                'status' => false,
+                'message' => "User role doesn't have access",
+                'data' => null
+            ], 422);
+        }
+
+        $task->update($request->all());
+
+        return response()->json([
+            'status' => true,
+            'message' => "Task Updated successfully!",
+            'data' => $task
+        ], 200);
     }
 
     /**
@@ -102,6 +119,21 @@ class TaskController extends Controller
      */
     public function destroy(Task $task)
     {
-        //
+        //Check User Role
+        $user = $request->user('sanctum');
+        if($user->role != 'manager'){
+            return response()->json([
+                'status' => false,
+                'message' => "User role doesn't have access",
+                'data' => null
+            ], 422);
+        }
+
+        $task->delete();
+
+        return response()->json([
+            'status' => true,
+            'message' => "Task Deleted successfully!",
+        ], 200);
     }
 }
