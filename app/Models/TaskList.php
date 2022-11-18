@@ -8,9 +8,12 @@ use Illuminate\Database\Eloquent\Model;
 class TaskList extends Model
 {
     use HasFactory;
-    protected $table = 'my_flights';
 
-    protected $fillable = [
-        'name'
+    protected $fillable  = [
+        'name', 'board_id'
     ];
+
+    public $table = 'task_lists';
+
+    
 }

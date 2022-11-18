@@ -4,6 +4,7 @@ use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\Api\AuthController;
 use App\Http\Controllers\Api\BoardController;
+use App\Http\Controllers\Api\TaskListController;
 use App\Http\Controllers\Api\EmailVerificationController;
 /*
 |--------------------------------------------------------------------------
@@ -34,3 +35,6 @@ Route::get('email/verify/{id}/{hash}/', [EmailVerificationController::class, 've
 Route::apiResource('boards', BoardController::class)->middleware('auth:sanctum');
 Route::post('users/{user}/boards/{board}/assign', [BoardController::class, 'assignUser'])->middleware('auth:sanctum');
 Route::post('users/{user}/boards/{board}/unassign', [BoardController::class, 'unassignUser'])->middleware('auth');
+
+//TaskList
+Route::apiResource('tasklists', TaskListController::class)->middleware('auth:sanctum');

@@ -25,7 +25,7 @@ class StoreTaskListRequest extends FormRequest
     {
         return [
             'name' => 'required',
-            'board_id' => 'required'
+            'board_id' => 'required|exists:boards,id'
         ];
     }
 }

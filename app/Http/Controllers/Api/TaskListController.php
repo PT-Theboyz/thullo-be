@@ -14,13 +14,13 @@ class TaskListController extends Controller
      *
      * @return \Illuminate\Http\Response
      */
-    public function index()
+    public function index(Request $request)
     {
-        $taskLists = TaskList::all();
+        $taskLists = TaskList::where('board_id', $request->board_id)->get(); 
 
         return response()->json([
             'status' => true,
-            'data' => $boards
+            'data' => $taskLists
         ]);
     }
 
@@ -90,26 +90,36 @@ class TaskListController extends Controller
      * @param  \App\Models\TaskList  $taskList
      * @return \Illuminate\Http\Response
      */
-    public function update(Request $request, TaskList $taskList)
+    public function update(StoreTaskListRequest $request, TaskList $taskList)
     {
         //Check User Role
-        if($user->role != 'manager'){
+        // $user = $request->user('sanctum');
+        // if($user->role != 'manager'){
+        //     return response()->json([
+        //         'status' => false,
+        //         'message' => "User role doesn't have access",
+        //         'data' => null
+        //     ], 422);
+        // }
+
+        try {
+
+            $res = $taskList->update($request->all());
+
             return response()->json([
-                'status' => false,
-                'message' => "User role doesn't have access",
-                'data' => null
-            ], 422);
+                'status' => true,
+                'message' => "Task List Updated successfully!",
+                'data' => $res
+            ], 200);
+        
+        } catch (\Exception $exception) {
+            dump($exception);
+            dd($exception->getMessage());
+        
         }
 
-        $taskList->update([
-            'name' => $request->name
-        ])
 
-        return response()->json([
-            'status' => true,
-            'message' => "Task List Updated successfully!",
-            'data' => $taskList
-        ], 200);
+        
     }
 
     /**
@@ -118,7 +128,7 @@ class TaskListController extends Controller
      * @param  \App\Models\TaskList  $taskList
      * @return \Illuminate\Http\Response
      */
-    public function destroy(TaskList $taskList)
+    public function destroy(Request $request, TaskList $taskList)
     {
         //Check User Role
         $user = $request->user('sanctum');
