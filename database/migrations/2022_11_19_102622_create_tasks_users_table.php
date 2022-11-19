@@ -13,8 +13,8 @@ return new class extends Migration
      */
     public function up()
     {
-        if(!Schema::hasTable('tasks_users')){
-            Schema::create('tasks_users', function (Blueprint $table) {
+        if(!Schema::hasTable('task_user')){
+            Schema::create('task_user', function (Blueprint $table) {
                 $table->id();
                 $table->bigInteger('user_id')->unsigned();
                 $table->bigInteger('task_id')->unsigned();

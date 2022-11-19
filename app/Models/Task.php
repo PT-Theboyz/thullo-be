@@ -14,4 +14,7 @@ class Task extends Model
         'due_date', 'cover', 'board_id', 'task_list_id'
     ];
 
+    public function users(){
+        return $this->belongsToMany(User::class)->withTimestamps();
+    }
 }

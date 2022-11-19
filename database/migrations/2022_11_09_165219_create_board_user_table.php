@@ -13,8 +13,8 @@ return new class extends Migration
      */
     public function up()
     {
-        if(!Schema::hasTable('boards_users')){
-            Schema::create('boards_users', function (Blueprint $table) {
+        if(!Schema::hasTable('board_user')){
+            Schema::create('board_user', function (Blueprint $table) {
                 $table->id();
                 $table->bigInteger('user_id')->unsigned();
                 $table->bigInteger('board_id')->unsigned(); 

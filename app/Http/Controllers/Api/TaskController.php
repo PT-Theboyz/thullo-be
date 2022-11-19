@@ -4,6 +4,7 @@ namespace App\Http\Controllers\Api;
 
 use App\Http\Controllers\Controller;
 use App\Models\Task;
+use App\Models\User;
 use Illuminate\Http\Request;
 use App\Http\Requests\StoreTaskRequest;
 
@@ -16,7 +17,7 @@ class TaskController extends Controller
      */
     public function index(Request $request)
     {
-        $tasks = Task::where('board_id', $request->board_id)->get(); 
+        $tasks = Task::where('board_id', $request->board_id)->with('users')->get(); 
 
         return response()->json([
             'status' => true,

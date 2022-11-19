@@ -6,6 +6,7 @@ use App\Http\Controllers\Api\AuthController;
 use App\Http\Controllers\Api\BoardController;
 use App\Http\Controllers\Api\TaskListController;
 use App\Http\Controllers\Api\TaskController;
+use App\Http\Controllers\Api\UserController;
 use App\Http\Controllers\Api\EmailVerificationController;
 /*
 |--------------------------------------------------------------------------
@@ -31,6 +32,11 @@ Route::post('auth/register', [AuthController::class, 'createUser']);
 Route::post('auth/login', [AuthController::class, 'loginUser']);
 Route::post('email/send-verification', [EmailVerificationController::class, 'sendVerificationEmail'])->middleware('auth:sanctum');
 Route::get('email/verify/{id}/{hash}/', [EmailVerificationController::class, 'verify'])->name('verification.verify')->middleware(['signed', 'throttle:6,1']);
+
+//Users
+Route::get('users/by-board-id/{id}', [UserController::class, 'getUsersByBoardId'])->middleware('auth:sanctum');
+Route::get('users/', [UserController::class, 'index'])->middleware('auth:sanctum');
+
 
 //Board
 Route::apiResource('boards', BoardController::class)->middleware('auth:sanctum');
