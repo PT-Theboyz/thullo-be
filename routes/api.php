@@ -35,10 +35,12 @@ Route::get('email/verify/{id}/{hash}/', [EmailVerificationController::class, 've
 //Board
 Route::apiResource('boards', BoardController::class)->middleware('auth:sanctum');
 Route::post('users/{user}/boards/{board}/assign', [BoardController::class, 'assignUser'])->middleware('auth:sanctum');
-Route::post('users/{user}/boards/{board}/unassign', [BoardController::class, 'unassignUser'])->middleware('auth');
+Route::post('users/{user}/boards/{board}/unassign', [BoardController::class, 'unassignUser'])->middleware('auth:sanctum');
 
 //TaskList
 Route::apiResource('tasklists', TaskListController::class)->middleware('auth:sanctum');
 
 //Task
 Route::apiResource('tasks', TaskController::class)->middleware('auth:sanctum');
+Route::post('users/{user}/tasks/{task}/assign', [TaskController::class, 'assignUser'])->middleware('auth:sanctum');
+Route::post('users/{user}/tasks/{task}/unassign', [TaskController::class, 'unassignUser'])->middleware('auth:sanctum');
