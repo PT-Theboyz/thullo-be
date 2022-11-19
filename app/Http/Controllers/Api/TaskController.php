@@ -61,15 +61,77 @@ class TaskController extends Controller
         ], 200);
     }
 
+    public function assignUser(User $user, Task $task)
+    {
+        //Check User Role
+        if($user->role != 'manager'){
+            return response()->json([
+                'status' => false,
+                'message' => "User role doesn't have access",
+                'data' => null
+            ], 422);
+        }
+
+        if($task->users->contains($user->id)){
+            return response()->json([
+                'status' => false,
+                'message' => "User Already Assign to this task",
+                'data' => null
+            ], 422);
+        }
+
+
+        $task->users()->attach($user->id);
+
+        return response()->json([
+            'status' => true,
+            'message' => "Assign User to Task successfully!",
+        ], 200);
+    }
+
+    public function unassignUser(User $user, Task $task)
+    {
+
+        //Check User Role
+        if($user->role != 'manager'){
+            return response()->json([
+                'status' => false,
+                'message' => "User role doesn't have access",
+                'data' => null
+            ], 422);
+        }
+
+        if(!$task->users->contains($user->id)){
+            return response()->json([
+                'status' => false,
+                'message' => "User not assigned to this Task",
+                'data' => null
+            ], 422);
+        }
+
+
+        $task->users()->detach($user->id);
+
+        return response()->json([
+            'status' => true,
+            'message' => "Unassign User to Task successfully!",
+        ], 200);
+    }
+
+
     /**
      * Display the specified resource.
      *
      * @param  \App\Models\Task  $task
      * @return \Illuminate\Http\Response
      */
-    public function show(Task $task)
+    public function show($id)
     {
-        //
+        $task = Task::where('id', $id);
+        return response()->json([
+            'status' => true,
+            'data' => $task
+        ]);
     }
 
     /**

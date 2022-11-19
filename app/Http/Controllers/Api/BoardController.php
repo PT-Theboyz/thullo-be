@@ -92,7 +92,6 @@ class BoardController extends Controller
         return response()->json([
             'status' => true,
             'message' => "Assign User to Board successfully!",
-            // 'data' => $board::with("users")->get()
         ], 200);
     }
 
