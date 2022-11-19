@@ -14,7 +14,7 @@ class TaskController extends Controller
      *
      * @return \Illuminate\Http\Response
      */
-    public function index()
+    public function index(Request $request)
     {
         $tasks = Task::where('board_id', $request->board_id)->get(); 
 
@@ -117,7 +117,7 @@ class TaskController extends Controller
      * @param  \App\Models\Task  $task
      * @return \Illuminate\Http\Response
      */
-    public function destroy(Task $task)
+    public function destroy(Request $request, Task $task)
     {
         //Check User Role
         $user = $request->user('sanctum');

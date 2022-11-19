@@ -25,8 +25,8 @@ class StoreTaskRequest extends FormRequest
     {
         return [
             'title' => 'required',
-            'cover' => 'required',
-            'description' => 'required',
+            'cover' => 'sometimes|nullable',
+            'description' => 'sometimes|nullable',
             'position' => 'required',
             'board_id' => 'required|exists:boards,id',
             'task_list_id' => 'required|exists:task_lists,id',

@@ -13,18 +13,18 @@ return new class extends Migration
      */
     public function up()
     {
-        if(!Schema::hasTable('boards_users')){
-            Schema::create('boards_users', function (Blueprint $table) {
+        if(!Schema::hasTable('tasks_users')){
+            Schema::create('tasks_users', function (Blueprint $table) {
                 $table->id();
                 $table->bigInteger('user_id')->unsigned();
-                $table->bigInteger('board_id')->unsigned(); 
-                $table->timestamps();
+                $table->bigInteger('task_id')->unsigned();
                 $table->foreign('user_id')
                     ->references('id')
                     ->on('users');
-                 $table->foreign('board_id')
+                 $table->foreign('task_id')
                     ->references('id')
-                    ->on('boards');
+                    ->on('tasks'); 
+                $table->timestamps();
             });
         }
     }
@@ -36,6 +36,6 @@ return new class extends Migration
      */
     public function down()
     {
-        Schema::dropIfExists('board_user');
+        Schema::dropIfExists('tasks_users');
     }
 };

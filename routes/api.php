@@ -41,4 +41,4 @@ Route::post('users/{user}/boards/{board}/unassign', [BoardController::class, 'un
 Route::apiResource('tasklists', TaskListController::class)->middleware('auth:sanctum');
 
 //Task
-Route::apiResource('tasks', TaskListController::class)->middleware('auth:sanctum');
+Route::apiResource('tasks', TaskController::class)->middleware('auth:sanctum');

@@ -16,15 +16,14 @@ return new class extends Migration
         Schema::create('tasks', function (Blueprint $table) {
             $table->id();
             $table->string('title');
-            $table->string('description')->nullable();
+            $table->string('description')->nullable()->default('');
+            $table->string('cover')->nullable()->default('');
             $table->integer('position');
             $table->boolean('status')->nullable();
             $table->date('due_date')->nullable();
-            $table->string('cover');
-            // $table->foreignId('label_id');
             $table->foreignId('board_id');
             $table->foreignId('task_list_id');
-            $table->timestamps();   
+            $table->timestamps();
         });
     }
 
