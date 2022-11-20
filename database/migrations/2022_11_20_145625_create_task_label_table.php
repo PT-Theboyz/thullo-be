@@ -13,10 +13,20 @@ return new class extends Migration
      */
     public function up()
     {
-        Schema::create('task_label', function (Blueprint $table) {
-            $table->id();
-            $table->timestamps();
-        });
+        if(!Schema::hasTable('label_task')){
+            Schema::create('label_task', function (Blueprint $table) {
+                $table->id();
+                $table->bigInteger('label_id')->unsigned();
+                $table->bigInteger('task_id')->unsigned();
+                $table->foreign('label_id')
+                    ->references('id')
+                    ->on('labels');
+                 $table->foreign('task_id')
+                    ->references('id')
+                    ->on('tasks'); 
+                $table->timestamps();
+            });
+        }
     }
 
     /**

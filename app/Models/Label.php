@@ -12,4 +12,8 @@ class Label extends Model
     protected $fillable  = [
         'name', 'color', 'board_id'
     ];
+
+    public function tasks(){
+        return $this->belongsToMany(Task::class)->withTimestamps();
+    }
 }

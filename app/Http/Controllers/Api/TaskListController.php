@@ -16,7 +16,7 @@ class TaskListController extends Controller
      */
     public function index(Request $request)
     {
-        $taskLists = TaskList::where('board_id', $request->board_id)->get(); 
+        $taskLists = TaskList::where('board_id', $request->board_id)->with('tasks')->get(); 
 
         return response()->json([
             'status' => true,

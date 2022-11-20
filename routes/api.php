@@ -6,6 +6,7 @@ use App\Http\Controllers\Api\AuthController;
 use App\Http\Controllers\Api\BoardController;
 use App\Http\Controllers\Api\TaskListController;
 use App\Http\Controllers\Api\TaskController;
+use App\Http\Controllers\Api\LabelController;
 use App\Http\Controllers\Api\UserController;
 use App\Http\Controllers\Api\EmailVerificationController;
 /*
@@ -50,3 +51,8 @@ Route::apiResource('tasklists', TaskListController::class)->middleware('auth:san
 Route::apiResource('tasks', TaskController::class)->middleware('auth:sanctum');
 Route::post('users/{user}/tasks/{task}/assign', [TaskController::class, 'assignUser'])->middleware('auth:sanctum');
 Route::post('users/{user}/tasks/{task}/unassign', [TaskController::class, 'unassignUser'])->middleware('auth:sanctum');
+
+//Label
+Route::apiResource('labels', LabelController::class)->middleware('auth:sanctum');
+// Route::post('labels/{label}/tasks/{task}/assign', [LabelController::class, 'assignUser'])->middleware('auth:sanctum');
+// Route::post('labels/{label}/tasks/{task}/unassign', [LabelController::class, 'unassignUser'])->middleware('auth:sanctum');
