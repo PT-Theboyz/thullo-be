@@ -54,5 +54,5 @@ Route::post('users/{user}/tasks/{task}/unassign', [TaskController::class, 'unass
 
 //Label
 Route::apiResource('labels', LabelController::class)->middleware('auth:sanctum');
-// Route::post('labels/{label}/tasks/{task}/assign', [LabelController::class, 'assignUser'])->middleware('auth:sanctum');
-// Route::post('labels/{label}/tasks/{task}/unassign', [LabelController::class, 'unassignUser'])->middleware('auth:sanctum');
+Route::post('tasks/{task}/labels/{label}/assign', [LabelController::class, 'assignLabel'])->middleware('auth:sanctum');
+Route::post('tasks/{task}/labels/{label}/unassign', [LabelController::class, 'unassignLabel'])->middleware('auth:sanctum');

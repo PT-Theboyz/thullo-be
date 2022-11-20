@@ -4,6 +4,7 @@ namespace App\Http\Controllers\Api;
 
 use App\Http\Controllers\Controller;
 use App\Models\Label;
+use App\Models\Task;
 use Illuminate\Http\Request;
 use App\Http\Requests\StoreLabelRequest;
 
@@ -64,15 +65,75 @@ class LabelController extends Controller
         ], 200);
     }
 
+    public function assignLabel(Request $request, Task $task, Label $label,)
+    {
+        //Check User Role
+        $user = $request->user('sanctum');
+        if($user->role != 'manager'){
+            return response()->json([
+                'status' => false,
+                'message' => "User role doesn't have access",
+                'data' => null
+            ], 422);
+        }
+
+        if($label->tasks->contains($task->id)){
+            return response()->json([
+                'status' => false,
+                'message' => "Task Already Assign to this Label",
+                'data' => null
+            ], 422);
+        }
+
+        $label->tasks()->attach($task->id);
+
+        return response()->json([
+            'status' => true,
+            'message' => "Assign Task to Label successfully!",
+        ], 200);
+    }
+
+    public function unassignLabel(Request $request, Task $task, Label $label)
+    {
+        //Check User Role
+        $user = $request->user('sanctum');
+        if($user->role != 'manager'){
+            return response()->json([
+                'status' => false,
+                'message' => "User role doesn't have access",
+                'data' => null
+            ], 422);
+        }
+
+        if(!$label->tasks->contains($task->id)){
+            return response()->json([
+                'status' => false,
+                'message' => "Task not assigned to this Label",
+                'data' => null
+            ], 422);
+        }
+
+        $label->tasks()->detach($task->id);
+
+        return response()->json([
+            'status' => true,
+            'message' => "Unassign Task to Label successfully!",
+        ], 200);
+    }
+
     /**
      * Display the specified resource.
      *
      * @param  \App\Models\Label  $label
      * @return \Illuminate\Http\Response
      */
-    public function show(Label $label)
+    public function show($id)
     {
-        //
+        $label = Task::where('id', $id);
+        return response()->json([
+            'status' => true,
+            'data' => $label
+        ]);
     }
 
     /**
@@ -93,9 +154,25 @@ class LabelController extends Controller
      * @param  \App\Models\Label  $label
      * @return \Illuminate\Http\Response
      */
-    public function update(Request $request, Label $label)
+    public function update(StoreLabelRequest $request, Label $label)
     {
-        //
+        //Check User Role
+        $user = $request->user('sanctum');
+        if($user->role != 'manager'){
+            return response()->json([
+                'status' => false,
+                'message' => "User role doesn't have access",
+                'data' => null
+            ], 422);
+        }
+
+        $label->update($request->all());
+
+        return response()->json([
+            'status' => true,
+            'message' => "Label Updated successfully!",
+            'data' => $label
+        ], 200);
     }
 
     /**
@@ -104,8 +181,24 @@ class LabelController extends Controller
      * @param  \App\Models\Label  $label
      * @return \Illuminate\Http\Response
      */
-    public function destroy(Label $label)
+    public function destroy(Request $request, Label $label)
     {
-        //
+        //Check User Role
+        $user = $request->user('sanctum');
+        if($user->role != 'manager'){
+            return response()->json([
+                'status' => false,
+                'message' => "User role doesn't have access",
+                'data' => null
+            ], 422);
+        }
+
+        $label->delete();
+
+        return response()->json([
+            'status' => true,
+            'message' => "Label Deleted successfully!",
+        ], 200);
+
     }
 }
