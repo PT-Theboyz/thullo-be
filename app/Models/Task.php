@@ -17,4 +17,8 @@ class Task extends Model
     public function users(){
         return $this->belongsToMany(User::class)->withTimestamps();
     }
+
+    public function labels(){
+        return $this->belongsToMany(Label::class)->withTimestamps();
+    }
 }
