@@ -7,6 +7,7 @@ use App\Models\Board;
 use App\Models\User;
 use Illuminate\Http\Request;
 use App\Http\Requests\StoreBoardRequest;
+use Illuminate\Support\Facades\Cache;
 
 class BoardController extends Controller
 {
@@ -17,7 +18,11 @@ class BoardController extends Controller
      */
     public function index()
     {
-        $boards = Board::with('users')->get();
+        $boards = Cache::remember('allBoards', 3600, function() {
+            return Board::with('users')->get();
+        });
+        
+        // $boards = Board::with('users')->get();
 
         return response()->json([
             'status' => true,
