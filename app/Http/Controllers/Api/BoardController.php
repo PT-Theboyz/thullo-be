@@ -30,16 +30,6 @@ class BoardController extends Controller
         ]);
     }
 
-    public function getAllBoard()
-    {
-        $boards = Board::with('users')->get();
-
-        return response()->json([
-            'status' => true,
-            'data' => $boards
-        ]);
-    }
-
     /**
      * Show the form for creating a new resource.
      *
@@ -66,10 +56,6 @@ class BoardController extends Controller
                 'message' => "User role doesn't have access",
                 'data' => null
             ], 422);
-        }
-        
-        for ($x = 0; $x <= 1000; $x++) {
-            Board::create($request->all());
         }
 
         $board = Board::create($request->all());

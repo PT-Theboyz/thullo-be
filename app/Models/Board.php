@@ -34,4 +34,9 @@ class Board extends Model
             Cache::forget('allBoards');
         });
     }
+
+    public function tasks()
+    {
+        return $this->hasMany(Tasks::class);
+    }
 }

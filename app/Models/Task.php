@@ -21,4 +21,8 @@ class Task extends Model
     public function labels(){
         return $this->belongsToMany(Label::class)->withTimestamps();
     }
+
+    protected function Board(){
+        return $this->belongsTo(Board::class);
+    }
 }
