@@ -67,7 +67,7 @@ class BoardController extends Controller
         ], 200);
     }
 
-    public function assignUser(User $user, Board $board)
+    public function assignUser(Request $request, User $user, Board $board)
     {
         //Check User Role
         $loginUser = $request->user('sanctum');
@@ -96,7 +96,7 @@ class BoardController extends Controller
         ], 200);
     }
 
-    public function unassignUser(User $user, Board $board)
+    public function unassignUser(Request $request, User $user, Board $board)
     {
 
         //Check User Role

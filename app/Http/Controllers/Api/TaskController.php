@@ -62,7 +62,7 @@ class TaskController extends Controller
         ], 200);
     }
 
-    public function assignUser(User $user, Task $task)
+    public function assignUser(Request $request, User $user, Task $task)
     {
         //Check User Role
         $loginUser = $request->user('sanctum');
@@ -91,7 +91,7 @@ class TaskController extends Controller
         ], 200);
     }
 
-    public function unassignUser(User $user, Task $task)
+    public function unassignUser(Request $request, User $user, Task $task)
     {
 
         //Check User Role
