@@ -41,6 +41,7 @@ Route::get('users/', [UserController::class, 'index'])->middleware('auth:sanctum
 
 //Board
 Route::apiResource('boards', BoardController::class)->middleware('auth:sanctum');
+Route::get('getAllBoards/', [BoardController::class, 'getAllBoard'])->middleware('auth:sanctum');
 Route::post('users/{user}/boards/{board}/assign', [BoardController::class, 'assignUser'])->middleware('auth:sanctum');
 Route::post('users/{user}/boards/{board}/unassign', [BoardController::class, 'unassignUser'])->middleware('auth:sanctum');
 

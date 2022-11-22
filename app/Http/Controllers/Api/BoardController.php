@@ -21,8 +21,18 @@ class BoardController extends Controller
         $boards = Cache::remember('allBoards', 3600, function() {
             return Board::with('users')->get();
         });
-        
+
         // $boards = Board::with('users')->get();
+
+        return response()->json([
+            'status' => true,
+            'data' => $boards
+        ]);
+    }
+
+    public function getAllBoard()
+    {
+        $boards = Board::with('users')->get();
 
         return response()->json([
             'status' => true,
@@ -58,6 +68,10 @@ class BoardController extends Controller
             ], 422);
         }
         
+        for ($x = 0; $x <= 1000; $x++) {
+            Board::create($request->all());
+        }
+
         $board = Board::create($request->all());
 
         // Attach First User to Board
