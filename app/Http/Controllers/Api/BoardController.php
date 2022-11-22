@@ -70,7 +70,8 @@ class BoardController extends Controller
     public function assignUser(User $user, Board $board)
     {
         //Check User Role
-        if($user->role != 'manager'){
+        $loginUser = $request->user('sanctum');
+        if($loginUser->role != 'manager'){
             return response()->json([
                 'status' => false,
                 'message' => "User role doesn't have access",
@@ -99,7 +100,8 @@ class BoardController extends Controller
     {
 
         //Check User Role
-        if($user->role != 'manager'){
+        $loginUser = $request->user('sanctum');
+        if($loginUser->role != 'manager'){
             return response()->json([
                 'status' => false,
                 'message' => "User role doesn't have access",
