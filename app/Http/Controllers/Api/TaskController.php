@@ -176,6 +176,46 @@ class TaskController extends Controller
         ], 200);
     }
 
+     /**
+     * Update position of task.
+     *
+     * @param  \Illuminate\Http\Request  $request
+     * @param  \App\Models\Task  $task
+     * @return \Illuminate\Http\Response
+     */
+    public function updatePosition(Request $request, Task $task)
+    {
+        if(!$request->position){
+            return response()->json([
+                'status' => false,
+                'message' => "Position should be filled!",
+                'data' => null
+            ], 422);
+        }
+
+        $temp = $task->position;
+
+        $existingTask = Task::where('position', $request->position)->first();
+
+        if($existingTask){
+            $existingTask->update([
+                'position' => $temp
+            ]);
+        }
+
+        $task->update([
+            'position' => $request->position
+        ]);
+
+
+
+        return response()->json([
+            'status' => true,
+            'message' => "Update Position Task successfully!",
+            'data' => $task
+        ], 200);
+    }
+
     /**
      * Remove the specified resource from storage.
      *

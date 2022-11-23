@@ -51,6 +51,7 @@ Route::apiResource('tasklists', TaskListController::class)->middleware('auth:san
 
 //Task
 Route::apiResource('tasks', TaskController::class)->middleware('auth:sanctum');
+Route::patch('tasks/update-position/{task}', [TaskController::class, 'updatePosition'])->middleware('auth:sanctum');
 Route::post('users/{user}/tasks/{task}/assign', [TaskController::class, 'assignUser'])->middleware('auth:sanctum');
 Route::post('users/{user}/tasks/{task}/unassign', [TaskController::class, 'unassignUser'])->middleware('auth:sanctum');
 
