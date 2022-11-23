@@ -37,6 +37,19 @@ class Board extends Model
 
     public function tasks()
     {
-        return $this->hasMany(Tasks::class);
+        return $this->hasMany(Task::class);
+    }
+
+    public static function boot() {
+        parent::boot();
+        self::deleting(function($board) { 
+            $board->tasks()->each(function($task) {
+                $task->delete(); 
+            });
+            
+            $board->taskLists()->each(function($tasklist) {
+                $tasklist->delete(); 
+            });
+        });
     }
 }

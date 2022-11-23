@@ -22,6 +22,11 @@ class Task extends Model
         return $this->belongsToMany(Label::class)->withTimestamps();
     }
 
+    public function checkLists()
+    {
+        return $this->hasMany(CheckList::class);
+    }
+
     protected function Board(){
         return $this->belongsTo(Board::class);
     }

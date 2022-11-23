@@ -23,4 +23,13 @@ class TaskList extends Model
     {
         return $this->hasMany(Task::class);
     }
+
+    public static function boot() {
+        parent::boot();
+        self::deleting(function($tasklist) { 
+            $tasklist->tasks()->each(function($task) {
+                $task->delete(); 
+            });
+        });
+    }
 }
