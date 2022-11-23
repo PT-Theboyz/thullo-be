@@ -9,6 +9,8 @@ use App\Http\Controllers\Api\TaskController;
 use App\Http\Controllers\Api\LabelController;
 use App\Http\Controllers\Api\UserController;
 use App\Http\Controllers\Api\EmailVerificationController;
+use App\Http\Controllers\Api\CheckListController;
+
 /*
 |--------------------------------------------------------------------------
 | API Routes
@@ -56,3 +58,6 @@ Route::post('users/{user}/tasks/{task}/unassign', [TaskController::class, 'unass
 Route::apiResource('labels', LabelController::class)->middleware('auth:sanctum');
 Route::post('tasks/{task}/labels/{label}/assign', [LabelController::class, 'assignLabel'])->middleware('auth:sanctum');
 Route::post('tasks/{task}/labels/{label}/unassign', [LabelController::class, 'unassignLabel'])->middleware('auth:sanctum');
+
+//CheckList
+Route::apiResource('checklists', CheckListController::class)->middleware('auth:sanctum');
