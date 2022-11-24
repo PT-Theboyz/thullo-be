@@ -30,4 +30,17 @@ class Task extends Model
     protected function Board(){
         return $this->belongsTo(Board::class);
     }
+
+    public static function boot() {
+        parent::boot();
+        self::deleting(function($task) { 
+            $task->labels()->each(function($label) {
+                $label->delete(); 
+            });
+
+            $task->checkLists()->each(function($checklist) {
+                $checklist->delete(); 
+            });
+        });
+    }
 }

@@ -100,7 +100,10 @@ class AuthController extends Controller
                 'status' => true,
                 'message' => 'User Logged In Successfully',
                 'token' => $user->createToken("API TOKEN")->plainTextToken,
-                'email_verified' => ($user->email_verified_at ? true : false)
+                'email_verified' => ($user->email_verified_at ? true : false),
+                'name' => $user->name,
+                'email' => $user->email,
+                'role' => $user->role
             ], 200);
 
         } catch (\Throwable $th) {

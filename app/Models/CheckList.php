@@ -18,5 +18,14 @@ class CheckList extends Model
         return $this->hasMany(Todo::class);
     }
 
+    public static function boot() {
+        parent::boot();
+        self::deleting(function($checklist) { 
+            $checklist->todos()->each(function($todo) {
+                $todo->delete(); 
+            });
+        });
+    }
+
     protected $table = 'check_lists';
 }
