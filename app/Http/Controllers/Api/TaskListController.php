@@ -20,7 +20,7 @@ class TaskListController extends Controller
         //     return TaskList::where('board_id', $request->board_id)->with('tasks.checklists.todos.users', 'tasks.labels')->get(); 
         // });
 
-        $taskLists = TaskList::where('board_id', $request->board_id)->with('tasks.checklists.todos.users', 'tasks.labels')->get(); 
+        $taskLists = TaskList::where('board_id', $request->board_id)->with('tasks.checklists.todos.users', 'tasks.labels', 'tasks.users')->get(); 
 
         return response()->json([
             'status' => true,

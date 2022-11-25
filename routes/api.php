@@ -41,6 +41,8 @@ Route::get('email/verify/{id}/{hash}/', [EmailVerificationController::class, 've
 //Users
 Route::get('users/by-board-id/{id}', [UserController::class, 'getUsersByBoardId'])->middleware('auth:sanctum');
 Route::get('users/', [UserController::class, 'index'])->middleware('auth:sanctum');
+Route::patch('users/{user}', [UserController::class, 'update'])->middleware('auth:sanctum');
+
 
 
 //Board

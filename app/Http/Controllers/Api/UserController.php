@@ -86,7 +86,13 @@ class UserController extends Controller
      */
     public function update(Request $request, User $user)
     {
-        //
+        $user->update($request->all());
+
+        return response()->json([
+            'status' => true,
+            'message' => "User Updated successfully!",
+            'data' => $user
+        ], 200);
     }
 
     /**
