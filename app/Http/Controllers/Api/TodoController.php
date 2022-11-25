@@ -4,6 +4,7 @@ namespace App\Http\Controllers\Api;
 
 use App\Http\Controllers\Controller;
 use App\Models\Todo;
+use App\Models\User;
 use Illuminate\Http\Request;
 use App\Http\Requests\StoreTodoController;
 
@@ -16,7 +17,7 @@ class TodoController extends Controller
      */
     public function index(Request $request)
     {
-        $todos = Todo::where('check_list_id', $request->check_list_id)->get(); 
+        $todos = Todo::where('check_list_id', $request->check_list_id)->with('users')->get(); 
 
         return response()->json([
             'status' => true,
@@ -48,6 +49,65 @@ class TodoController extends Controller
             'status' => true,
             'message' => "Todo Created successfully!",
             'data' => $todo
+        ], 200);
+    }
+
+    public function assignUser(Request $request, User $user, Todo $todo)
+    {
+        //Check User Role
+        $loginUser = $request->user('sanctum');
+        if($loginUser->role != 'manager'){
+            return response()->json([
+                'status' => false,
+                'message' => "User role doesn't have access",
+                'data' => null
+            ], 422);
+        }
+
+        if($todo->users->contains($user->id)){
+            return response()->json([
+                'status' => false,
+                'message' => "User Already Assign to this task",
+                'data' => null
+            ], 422);
+        }
+
+
+        $todo->users()->attach($user->id);
+
+        return response()->json([
+            'status' => true,
+            'message' => "Assign User to Todo successfully!",
+        ], 200);
+    }
+
+    public function unassignUser(Request $request, User $user, Todo $todo)
+    {
+
+        //Check User Role
+        $loginUser = $request->user('sanctum');
+        if($loginUser->role != 'manager'){
+            return response()->json([
+                'status' => false,
+                'message' => "User role doesn't have access",
+                'data' => null
+            ], 422);
+        }
+
+        if(!$todo->users->contains($user->id)){
+            return response()->json([
+                'status' => false,
+                'message' => "User not assigned to this Task",
+                'data' => null
+            ], 422);
+        }
+
+
+        $task->users()->detach($user->id);
+
+        return response()->json([
+            'status' => true,
+            'message' => "Unassign User to Todo successfully!",
         ], 200);
     }
 
@@ -92,7 +152,7 @@ class TodoController extends Controller
                 ], 422);
             }
         }
-        
+
         $todo->update($request->all());
 
         return response()->json([

@@ -16,7 +16,11 @@ class TaskListController extends Controller
      */
     public function index(Request $request)
     {
-        $taskLists = TaskList::where('board_id', $request->board_id)->with('tasks.checklists.todos')->get(); 
+        // $taskLists = Cache::remember('allTaskLists', 3600, function() {
+        //     return TaskList::where('board_id', $request->board_id)->with('tasks.checklists.todos.users', 'tasks.labels')->get(); 
+        // });
+
+        $taskLists = TaskList::where('board_id', $request->board_id)->with('tasks.checklists.todos.users', 'tasks.labels')->get(); 
 
         return response()->json([
             'status' => true,

@@ -67,3 +67,5 @@ Route::apiResource('checklists', CheckListController::class)->middleware('auth:s
 
 //Todo
 Route::apiResource('todos', TodoController::class)->middleware('auth:sanctum');
+Route::post('users/{user}/todos/{todo}/assign', [TodoController::class, 'assignUser'])->middleware('auth:sanctum');
+Route::post('users/{user}/todos/{todo}/unassign', [TodoController::class, 'unassignUser'])->middleware('auth:sanctum');
