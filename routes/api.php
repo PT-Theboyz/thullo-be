@@ -10,6 +10,8 @@ use App\Http\Controllers\Api\LabelController;
 use App\Http\Controllers\Api\UserController;
 use App\Http\Controllers\Api\EmailVerificationController;
 use App\Http\Controllers\Api\CheckListController;
+use App\Http\Controllers\Api\TodoController;
+
 
 /*
 |--------------------------------------------------------------------------
@@ -62,3 +64,6 @@ Route::post('tasks/{task}/labels/{label}/unassign', [LabelController::class, 'un
 
 //CheckList
 Route::apiResource('checklists', CheckListController::class)->middleware('auth:sanctum');
+
+//Todo
+Route::apiResource('todos', TodoController::class)->middleware('auth:sanctum');
