@@ -64,14 +64,7 @@ class TodoController extends Controller
             ], 422);
         }
 
-        if($todo->users->contains($user->id)){
-            return response()->json([
-                'status' => false,
-                'message' => "User Already Assign to this task",
-                'data' => null
-            ], 422);
-        }
-
+        $todo->users()->detach();
 
         $todo->users()->attach($user->id);
 
