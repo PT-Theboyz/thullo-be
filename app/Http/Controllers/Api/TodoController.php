@@ -103,7 +103,7 @@ class TodoController extends Controller
         }
 
 
-        $task->users()->detach($user->id);
+        $todo->users()->detach($user->id);
 
         return response()->json([
             'status' => true,
