@@ -27,6 +27,11 @@ class Task extends Model
         return $this->hasMany(CheckList::class);
     }
 
+    public function attachments()
+    {
+        return $this->hasMany(Attachment::class);
+    }
+
     protected function Board(){
         return $this->belongsTo(Board::class);
     }
