@@ -17,7 +17,7 @@ class TaskController extends Controller
      */
     public function index(Request $request)
     {
-        $tasks = Task::where('task_list_id', $request->board_id)->with('users')->get(); 
+        $tasks = Task::where('board_id', $request->board_id)->with('users')->get(); 
 
         return response()->json([
             'status' => true,
