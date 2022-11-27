@@ -11,6 +11,8 @@ use App\Http\Controllers\Api\UserController;
 use App\Http\Controllers\Api\EmailVerificationController;
 use App\Http\Controllers\Api\CheckListController;
 use App\Http\Controllers\Api\TodoController;
+use App\Http\Controllers\Api\AttachmentController;
+
 
 
 /*
@@ -71,3 +73,6 @@ Route::apiResource('checklists', CheckListController::class)->middleware('auth:s
 Route::apiResource('todos', TodoController::class)->middleware('auth:sanctum');
 Route::post('users/{user}/todos/{todo}/assign', [TodoController::class, 'assignUser'])->middleware('auth:sanctum');
 Route::post('users/{user}/todos/{todo}/unassign', [TodoController::class, 'unassignUser'])->middleware('auth:sanctum');
+
+//Attachment
+Route::post('attachments/{task}', [AttachmentController::class, 'store'])->middleware('auth:sanctum');
