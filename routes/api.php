@@ -2,6 +2,7 @@
 
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Route;
+use Illuminate\Support\Facades\Storage;
 use App\Http\Controllers\Api\AuthController;
 use App\Http\Controllers\Api\BoardController;
 use App\Http\Controllers\Api\TaskListController;
@@ -75,4 +76,7 @@ Route::post('users/{user}/todos/{todo}/assign', [TodoController::class, 'assignU
 Route::post('users/{user}/todos/{todo}/unassign', [TodoController::class, 'unassignUser'])->middleware('auth:sanctum');
 
 //Attachment
-Route::post('attachments/{task}', [AttachmentController::class, 'store'])->middleware('auth:sanctum');
+Route::post('attachments/{task}', [AttachmentController::class, 'store']);
+Route::get('download-attachment/{fileName}', function ($filename){
+    return Storage::download('public/attachments/'.$filename);
+});

@@ -39,17 +39,18 @@ class AttachmentController extends Controller
      */
     public function store(StoreAttachmentRequest $request, Task $task)
     {
-        $attachment = new Attachment;
-
         if($request->file()){
-            $filename = time().'-'.$request->file->getClientOriginalName();
+            $temp = time().'-'.$request->file->getClientOriginalName();
+            
+            $attachment = Attachment::create([
+                "name" => $request->file->getClientOriginalName(),
+                "filename" => $temp,
+                "format" => $request->file->getClientOriginalExtension(),
+                "task_id" => $task->id
+            ]);
 
             //upload file to storage
-            $request->file('file')->storeAs('attachments', $fileName, 'public');
-            $attachment->name = $request->file->getClientOriginalName();
-            $attachment->$filename = $fileName;
-            $attachment->$format = $request->file->getClientOriginalExtension();
-            $attachment->$task_id = $task->id;
+            $request->file('file')->storeAs('attachments', $temp, 'public');
 
             return response()->json([
                 'status' => true,
