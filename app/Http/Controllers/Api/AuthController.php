@@ -101,6 +101,7 @@ class AuthController extends Controller
                 'message' => 'User Logged In Successfully',
                 'token' => $user->createToken("API TOKEN")->plainTextToken,
                 'email_verified' => ($user->email_verified_at ? true : false),
+                'id' => $user->id,
                 'name' => $user->name,
                 'email' => $user->email,
                 'role' => $user->role
