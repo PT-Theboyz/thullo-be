@@ -75,7 +75,7 @@ Route::post('users/{user}/todos/{todo}/assign', [TodoController::class, 'assignU
 Route::post('users/{user}/todos/{todo}/unassign', [TodoController::class, 'unassignUser'])->middleware('auth:sanctum');
 
 //Attachment
-Route::post('attachments/{task}', [AttachmentController::class, 'store']);
+Route::post('attachments/{task}', [AttachmentController::class, 'store'])->middleware('auth:sanctum');
 Route::get('download-attachment/{fileName}', function ($filename){
     return Storage::download('public/attachments/'.$filename);
 });
