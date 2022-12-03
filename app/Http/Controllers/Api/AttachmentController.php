@@ -39,6 +39,16 @@ class AttachmentController extends Controller
      */
     public function store(StoreAttachmentRequest $request, Task $task)
     {
+        if($request->file()){
+            $temp = time().'-'.$request->file->getClientOriginalName();
+            
+            return response()->json([
+                'status' => true,
+                'message' => "File Check",
+                'data' => $temp
+            ], 200);
+        }
+
         return response()->json([
             'status' => false,
             'message' => "File request error",
