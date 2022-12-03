@@ -41,6 +41,9 @@ class AttachmentController extends Controller
     {
         if($request->file()){
             $temp = time().'-'.$request->file->getClientOriginalName();
+
+            //upload file to storage
+            $request->file('file')->storeAs('attachments', $temp, 'public');
             
             return response()->json([
                 'status' => true,
