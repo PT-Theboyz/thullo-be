@@ -47,4 +47,8 @@ class User extends Authenticatable implements MustVerifyEmail
     {
         return $this->belongsToMany(Board::class)->withTimestamps();
     }
+
+    public function tasks(){
+        return $this->belongsToMany(Task::class)->withTimestamps();
+    }
 }
