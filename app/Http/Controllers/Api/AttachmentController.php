@@ -7,6 +7,7 @@ use App\Models\Attachment;
 use App\Models\Task;
 use Illuminate\Http\Request;
 use App\Http\Requests\StoreAttachmentRequest;
+use Illuminate\Support\Facades\Storage;
 
 
 class AttachmentController extends Controller
@@ -42,8 +43,13 @@ class AttachmentController extends Controller
         if($request->file()){
             $temp = time().'-'.$request->file->getClientOriginalName();
 
-            //upload file to storage
-            $request->file('file')->storeAs('attachments', $temp, 'public');
+            // //upload file to storage
+            // $request->file('file')->storeAs('attachments', $temp, 'public');
+            Storage::disk('local')->putFileAs(
+                'public/attachments/',
+                $request->file('file'),
+                $temp
+            );
             
             return response()->json([
                 'status' => true,
