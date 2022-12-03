@@ -35,11 +35,16 @@ header('Access-Control-Allow-Origin:  *');
 header('Access-Control-Allow-Methods:  POST, GET, OPTIONS, PUT, PATCH, DELETE');
 header('Access-Control-Allow-Headers: Accept, Content-Type, X-Auth-Token, Origin, Authorization');
 
+Route::get('/linkstorage', function () {
+    Artisan::call('storage:link');
+});
+
 //Auth
 Route::post('auth/register', [AuthController::class, 'createUser']);
 Route::post('auth/login', [AuthController::class, 'loginUser']);
 Route::post('email/send-verification', [EmailVerificationController::class, 'sendVerificationEmail'])->middleware('auth:sanctum');
 Route::get('email/verify/{id}/{hash}/', [EmailVerificationController::class, 'verify'])->name('verification.verify')->middleware(['signed', 'throttle:6,1']);
+
 
 //Users
 Route::get('users/by-board-id/{id}', [UserController::class, 'getUsersByBoardId'])->middleware('auth:sanctum');
