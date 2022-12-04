@@ -40,54 +40,18 @@ class AttachmentController extends Controller
      */
     public function store(StoreAttachmentRequest $request, Task $task)
     {
-        if($request->file()){
-            $temp = time().'-'.$request->file->getClientOriginalName();
-
-            // //upload file to storage
-            // $request->file('file')->storeAs('attachments', $temp, 'public');
-            Storage::disk('local')->putFileAs(
-                'public/attachments/',
-                $request->file('file'),
-                $temp
-            );
-            
-            return response()->json([
-                'status' => true,
-                'message' => "File Check",
-                'data' => $temp
-            ], 200);
-        }
+        $attachment = Attachment::create([
+            "name" => $request->name,
+            "filename" => time().'-'.$request->name,
+            "format" => $request->format,
+            "task_id" => $task->id
+        ]);
 
         return response()->json([
-            'status' => false,
-            'message' => "File request error",
-            'data' => null
-        ], 422);
-        // if($request->file()){
-        //     $temp = time().'-'.$request->file->getClientOriginalName();
-            
-        //     $attachment = Attachment::create([
-        //         "name" => $request->file->getClientOriginalName(),
-        //         "filename" => $temp,
-        //         "format" => $request->file->getClientOriginalExtension(),
-        //         "task_id" => $task->id
-        //     ]);
-
-        //     //upload file to storage
-        //     $request->file('file')->storeAs('attachments', $temp, 'public');
-
-        //     return response()->json([
-        //         'status' => true,
-        //         'message' => "Attachment Upload successfully!",
-        //         'data' => $attachment
-        //     ], 200);
-        // }else{
-        //     return response()->json([
-        //         'status' => false,
-        //         'message' => "File request error",
-        //         'data' => null
-        //     ], 422);
-        // }
+            'status' => true,
+            'message' => "Create Attachment successfully!",
+            'data' => $attachment
+        ], 200);
     }
 
     /**
@@ -98,7 +62,7 @@ class AttachmentController extends Controller
      */
     public function show(Attachment $attachment)
     {
-        //
+        
     }
 
     /**
@@ -132,6 +96,11 @@ class AttachmentController extends Controller
      */
     public function destroy(Attachment $attachment)
     {
-        //
+        $attachment->delete();
+
+        return response()->json([
+            'status' => true,
+            'message' => "Attachment Deleted successfully!",
+        ], 200);
     }
 }

@@ -46,6 +46,10 @@ class Task extends Model
             $task->checkLists()->each(function($checklist) {
                 $checklist->delete(); 
             });
+
+            $task->attachments()->each(function($attachment) {
+                $attachment->delete(); 
+            });
         });
     }
 }

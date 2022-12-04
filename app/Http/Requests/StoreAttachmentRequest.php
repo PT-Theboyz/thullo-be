@@ -24,7 +24,8 @@ class StoreAttachmentRequest extends FormRequest
     public function rules()
     {
         return [
-            'file' => 'required|max:5000',
+            'name' => 'required',
+            'format' => 'required'
         ];
     }
 }

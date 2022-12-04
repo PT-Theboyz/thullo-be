@@ -81,6 +81,4 @@ Route::post('users/{user}/todos/{todo}/unassign', [TodoController::class, 'unass
 
 //Attachment
 Route::post('attachments/{task}', [AttachmentController::class, 'store'])->middleware('auth:sanctum');
-Route::get('download-attachment/{fileName}', function ($filename){
-    return Storage::download('public/attachments/'.$filename);
-});
+Route::delete('attachments/{attachment}', [AttachmentController::class, 'destroy'])->middleware('auth:sanctum');

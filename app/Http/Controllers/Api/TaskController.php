@@ -206,6 +206,7 @@ class TaskController extends Controller
         $task->update([
             'position' => $request->position
         ]);
+        
 
 
 
