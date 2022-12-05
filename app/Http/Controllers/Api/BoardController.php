@@ -16,17 +16,18 @@ class BoardController extends Controller
      *
      * @return \Illuminate\Http\Response
      */
-    public function index()
+    public function index(Request $request)
     {
-        $boards = Cache::remember('allBoards', 3600, function() {
-            return Board::with('users')->get();
-        });
+        $user = $request->user('sanctum');
+        // $boards = Cache::remember('allBoards', 3600, function() {
+        //     return Board::with('users')->get();
+        // });
 
         // $boards = Board::with('users')->get();
 
         return response()->json([
             'status' => true,
-            'data' => $boards
+            'data' => $user->boards()->with('users')->get()
         ]);
     }
 
