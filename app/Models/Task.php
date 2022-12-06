@@ -32,6 +32,11 @@ class Task extends Model
         return $this->hasMany(Attachment::class);
     }
 
+    public function comments()
+    {
+        return $this->hasMany(Comment::class);
+    }
+
     protected function Board(){
         return $this->belongsTo(Board::class);
     }
@@ -49,6 +54,10 @@ class Task extends Model
 
             $task->attachments()->each(function($attachment) {
                 $attachment->delete(); 
+            });
+
+            $task->comments()->each(function($comment) {
+                $comment->delete(); 
             });
         });
     }

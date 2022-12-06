@@ -13,6 +13,7 @@ use App\Http\Controllers\Api\EmailVerificationController;
 use App\Http\Controllers\Api\CheckListController;
 use App\Http\Controllers\Api\TodoController;
 use App\Http\Controllers\Api\AttachmentController;
+use App\Http\Controllers\Api\CommentController;
 
 
 
@@ -82,3 +83,7 @@ Route::post('users/{user}/todos/{todo}/unassign', [TodoController::class, 'unass
 //Attachment
 Route::post('attachments/{task}', [AttachmentController::class, 'store'])->middleware('auth:sanctum');
 Route::delete('attachments/{attachment}', [AttachmentController::class, 'destroy'])->middleware('auth:sanctum');
+
+
+//Comment
+Route::apiResource('comments', CommentController::class)->middleware('auth:sanctum');
