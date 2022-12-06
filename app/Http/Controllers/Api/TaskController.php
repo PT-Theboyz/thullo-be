@@ -158,14 +158,14 @@ class TaskController extends Controller
     public function update(Request $request, Task $task)
     {
         //Check User Role
-        $user = $request->user('sanctum');
-        if($user->role != 'manager'){
-            return response()->json([
-                'status' => false,
-                'message' => "User role doesn't have access",
-                'data' => null
-            ], 422);
-        }
+        // $user = $request->user('sanctum');
+        // if($user->role != 'manager'){
+        //     return response()->json([
+        //         'status' => false,
+        //         'message' => "User role doesn't have access",
+        //         'data' => null
+        //     ], 422);
+        // }
 
         $task->update($request->all());
 
