@@ -7,6 +7,8 @@ use App\Models\Task;
 use App\Models\User;
 use Illuminate\Http\Request;
 use App\Http\Requests\StoreTaskRequest;
+use App\Mail\AssignMemberMail;
+use Illuminate\Support\Facades\Mail;
 
 class TaskController extends Controller
 {
@@ -85,9 +87,13 @@ class TaskController extends Controller
 
         $task->users()->attach($user->id);
 
+
+        $mailRes = Mail::to($user->email)->send(new AssignMemberMail($user->name, $task->title, $task->description, $task->due_date));
+
         return response()->json([
             'status' => true,
             'message' => "Assign User to Task successfully!",
+            'mailRes' => $mailRes
         ], 200);
     }
 

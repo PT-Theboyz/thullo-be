@@ -8,6 +8,8 @@ use App\Models\User;
 use Illuminate\Http\Request;
 use App\Http\Requests\StoreBoardRequest;
 use Illuminate\Support\Facades\Cache;
+use App\Mail\AssignBoardMail;
+use Illuminate\Support\Facades\Mail;
 
 class BoardController extends Controller
 {
@@ -95,6 +97,9 @@ class BoardController extends Controller
 
 
         $board->users()->attach($user->id);
+
+        $mailRes = Mail::to($user->email)->send(new AssignBoardMail($user->name, $board->name, $board->id));
+
 
         return response()->json([
             'status' => true,
