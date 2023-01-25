@@ -52,11 +52,38 @@ class TodoController extends Controller
         ], 200);
     }
 
-    public function assignUser(Request $request, User $user, Todo $todo)
+    public function updateStatus(Request $request, Todo $todo)
     {
         //Check User Role
         $loginUser = $request->user('sanctum');
         if($loginUser->role != 'manager'){
+            return response()->json([
+                'status' => false,
+                'message' => "User role doesn't have access",
+                'data' => null
+            ], 422);
+        }
+
+        if($request->status){
+            $todo->update([
+                'status' => true
+            ]);
+        }else{
+            $todo->delete();
+        }
+
+        return response()->json([
+            'status' => true,
+            'message' => "Todo Update Status successfully!",
+            'data' => $todo
+        ], 200);
+    }
+
+    public function assignUser(Request $request, User $user, Todo $todo)
+    {
+        //Check User Role
+        $loginUser = $request->user('sanctum');
+        if($loginUser->role != 'staff'){
             return response()->json([
                 'status' => false,
                 'message' => "User role doesn't have access",
@@ -79,7 +106,7 @@ class TodoController extends Controller
 
         //Check User Role
         $loginUser = $request->user('sanctum');
-        if($loginUser->role != 'manager'){
+        if($loginUser->role != 'staff'){
             return response()->json([
                 'status' => false,
                 'message' => "User role doesn't have access",
@@ -137,7 +164,7 @@ class TodoController extends Controller
     {
         if($request->due_date){
             $loginUser = $request->user('sanctum');
-            if($loginUser->role != 'manager'){
+            if($loginUser->role != 'staff'){
                 return response()->json([
                     'status' => false,
                     'message' => "User role doesn't have access",

@@ -75,10 +75,12 @@ Route::post('tasks/{task}/labels/{label}/unassign', [LabelController::class, 'un
 //CheckList
 Route::apiResource('checklists', CheckListController::class)->middleware('auth:sanctum');
 
+
 //Todo
 Route::apiResource('todos', TodoController::class)->middleware('auth:sanctum');
 Route::post('users/{user}/todos/{todo}/assign', [TodoController::class, 'assignUser'])->middleware('auth:sanctum');
 Route::post('users/{user}/todos/{todo}/unassign', [TodoController::class, 'unassignUser'])->middleware('auth:sanctum');
+Route::patch('todos/update-status/{todo}', [TodoController::class, 'updateStatus'])->middleware('auth:sanctum');
 
 //Attachment
 Route::post('attachments/{task}', [AttachmentController::class, 'store'])->middleware('auth:sanctum');
