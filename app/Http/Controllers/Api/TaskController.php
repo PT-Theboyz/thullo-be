@@ -5,6 +5,7 @@ namespace App\Http\Controllers\Api;
 use App\Http\Controllers\Controller;
 use App\Models\Task;
 use App\Models\User;
+use App\Models\Comment;
 use Illuminate\Http\Request;
 use App\Http\Requests\StoreTaskRequest;
 use App\Mail\AssignMemberMail;
@@ -87,6 +88,11 @@ class TaskController extends Controller
 
         $task->users()->attach($user->id);
 
+        Comment::create([
+            "description" => "Assign User ". $user->name. " to this task",
+            "user_id" => $loginUser->id,
+            "task_id" => $task->id
+        ]);
 
         $mailRes = Mail::to($user->email)->send(new AssignMemberMail($user->name, $task->title, $task->description, $task->due_date));
 
@@ -120,6 +126,12 @@ class TaskController extends Controller
 
 
         $task->users()->detach($user->id);
+
+        Comment::create([
+            "description" => "Unassign User ". $user->name. " to this task",
+            "user_id" => $loginUser->id,
+            "task_id" => $task->id
+        ]);
 
         return response()->json([
             'status' => true,
@@ -164,7 +176,7 @@ class TaskController extends Controller
     public function update(Request $request, Task $task)
     {
         //Check User Role
-        // $user = $request->user('sanctum');
+        $user = $request->user('sanctum');
         // if($user->role != 'manager'){
         //     return response()->json([
         //         'status' => false,
@@ -173,7 +185,17 @@ class TaskController extends Controller
         //     ], 422);
         // }
 
+        
+
         $task->update($request->all());
+
+        if($request->due_date){
+            Comment::create([
+                "description" => "Add Due Date ". $request->due_date. " to this task",
+                "user_id" => $user->id,
+                "task_id" => $task->id
+            ]);
+        }
 
         return response()->json([
             'status' => true,

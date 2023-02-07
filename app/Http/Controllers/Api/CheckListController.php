@@ -6,6 +6,7 @@ use App\Http\Controllers\Controller;
 use App\Models\CheckList;
 use Illuminate\Http\Request;
 use App\Http\Requests\StoreCheckListRequest;
+use App\Models\Comment;
 
 class CheckListController extends Controller
 {
@@ -41,8 +42,15 @@ class CheckListController extends Controller
      * @return \Illuminate\Http\Response
      */
     public function store(StoreCheckListRequest $request)
-    {
+    {   
+        $user = $request->user('sanctum');
         $checkList = CheckList::create($request->all());
+
+        Comment::create([
+            "description" => "Add Checklist ". $checkList->name. " to this task",
+            "user_id" => $user->id,
+            "task_id" => $checkList->task_id
+        ]);
 
         return response()->json([
             'status' => true,

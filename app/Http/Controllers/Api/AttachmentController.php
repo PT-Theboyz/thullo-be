@@ -8,7 +8,7 @@ use App\Models\Task;
 use Illuminate\Http\Request;
 use App\Http\Requests\StoreAttachmentRequest;
 use Illuminate\Support\Facades\Storage;
-
+use App\Models\Comment;
 
 class AttachmentController extends Controller
 {
@@ -40,12 +40,21 @@ class AttachmentController extends Controller
      */
     public function store(StoreAttachmentRequest $request, Task $task)
     {
+        $user = $request->user('sanctum');
+
         $attachment = Attachment::create([
             "name" => $request->name,
             "filename" => time().'-'.$request->name,
             "format" => $request->format,
             "task_id" => $task->id
         ]);
+
+        Comment::create([
+            "description" => "Add Attachment ". $attachment->filename. " to this task",
+            "user_id" => $user->id,
+            "task_id" => $task->id
+        ]);
+        
 
         return response()->json([
             'status' => true,
