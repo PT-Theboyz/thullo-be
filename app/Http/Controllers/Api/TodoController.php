@@ -83,7 +83,7 @@ class TodoController extends Controller
     {
         //Check User Role
         $loginUser = $request->user('sanctum');
-        if($loginUser->role != 'staff'){
+        if($loginUser->role != 'manager'){
             return response()->json([
                 'status' => false,
                 'message' => "User role doesn't have access",
@@ -106,7 +106,7 @@ class TodoController extends Controller
 
         //Check User Role
         $loginUser = $request->user('sanctum');
-        if($loginUser->role != 'staff'){
+        if($loginUser->role != 'manager'){
             return response()->json([
                 'status' => false,
                 'message' => "User role doesn't have access",
@@ -164,7 +164,7 @@ class TodoController extends Controller
     {
         if($request->due_date){
             $loginUser = $request->user('sanctum');
-            if($loginUser->role != 'staff'){
+            if($loginUser->role != 'manager'){
                 return response()->json([
                     'status' => false,
                     'message' => "User role doesn't have access",
