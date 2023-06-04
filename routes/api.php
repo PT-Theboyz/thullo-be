@@ -14,6 +14,7 @@ use App\Http\Controllers\Api\CheckListController;
 use App\Http\Controllers\Api\TodoController;
 use App\Http\Controllers\Api\AttachmentController;
 use App\Http\Controllers\Api\CommentController;
+use App\Http\Controllers\Api\DetailTodoController;
 
 
 
@@ -81,6 +82,10 @@ Route::apiResource('todos', TodoController::class)->middleware('auth:sanctum');
 Route::post('users/{user}/todos/{todo}/assign', [TodoController::class, 'assignUser'])->middleware('auth:sanctum');
 Route::post('users/{user}/todos/{todo}/unassign', [TodoController::class, 'unassignUser'])->middleware('auth:sanctum');
 Route::patch('todos/update-status/{todo}', [TodoController::class, 'updateStatus'])->middleware('auth:sanctum');
+
+//Detail Todo
+Route::apiResource('detailtodos', DetailTodoController::class)->middleware('auth:sanctum');
+Route::patch('detailtodos/{detailtodo}', [DetailTodoController::class, 'update'])->middleware('auth:sanctum');
 
 //Attachment
 Route::post('attachments/{task}', [AttachmentController::class, 'store'])->middleware('auth:sanctum');
