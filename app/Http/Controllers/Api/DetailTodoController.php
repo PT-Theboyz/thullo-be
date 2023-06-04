@@ -16,9 +16,9 @@ class DetailTodoController extends Controller
      *
      * @return \Illuminate\Http\Response
      */
-    public function index(Request $request)
+    public function show($todo)
     {
-        $detailTodos = DetailTodo::where('todo_id', $request->todo_id)->get();
+        $detailTodos = DetailTodo::where('todo_id', $todo)->get();
 
 
         return response()->json([

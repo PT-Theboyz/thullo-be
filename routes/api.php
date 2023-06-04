@@ -86,6 +86,8 @@ Route::patch('todos/update-status/{todo}', [TodoController::class, 'updateStatus
 //Detail Todo
 Route::apiResource('detailtodos', DetailTodoController::class)->middleware('auth:sanctum');
 Route::patch('detailtodos/{detailtodo}', [DetailTodoController::class, 'update'])->middleware('auth:sanctum');
+Route::get('detailtodos/{todo}', [DetailTodoController::class, 'index'])->middleware('auth:sanctum');
+
 
 //Attachment
 Route::post('attachments/{task}', [AttachmentController::class, 'store'])->middleware('auth:sanctum');
